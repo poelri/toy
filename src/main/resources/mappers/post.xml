@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.toy.dao.PostDao">
+
+    <resultMap id="Member" type="Member">
+        <result column="member_no" property="memberNo" />
+        <result column="pw" property="pw" />
+        <result column="name" property="name" />
+        <result column="balance" property="balance" />
+    </resultMap>
+
+    <resultMap id="Category" type="Category">
+        <result column="CATEGORY_ID" property="categoryId" />
+        <result column="CATEGORY_NAME" property="categoryName" />
+    </resultMap>
+
+    <resultMap id="Reservation" type="Reservation">
+        <id column="MEMBER_NO" property="memberNo" />
+        <result column="RESERVATION_ID" property="reservationId" />
+        <result column="RESERVATION_DATE" property="reservationDate" />
+        <result column="START_DATE" property="startDate" />
+        <result column="LAST_DATE" property="lastDate" />
+        <result column="CAMP_NAME" property="campName" />
+        <result column="CATEGORY_ID" property="categoryId" />
+        <result column="PRICE" property="price" />
+        <result column="PEOPLE" property="people" />
+    </resultMap>
+
+    <resultMap id="Post" type="Post">
+        <result column="POST_ID" property="postId" />
+        <result column="member_no" property="memberNo" />
+        <result column="RESERVATION_ID" property="reservationId" />
+        <result column="START_DATE" property="startDate" />
+        <result column="LAST_DATE" property="lastDate" />
+        <result column="PEOPLE" property="people" />
+        <!-- Category 속성 매핑 -->
+        <association property="category" javaType="Category">
+            <result column="CATEGORY_ID" property="categoryId"/>
+            <result column="CATEGORY_NAME" property="categoryName"/>
+        </association>
+    </resultMap>
+
+    <select id="getPostList" parameterType="map" resultType="Post" resultMap="Post">
+        SELECT
+        R.RESERVATION_ID,
+        R.START_DATE,
+        R.LAST_DATE,
+        R.CATEGORY_ID,
+        C.CATEGORY_NAME,
+        R.PEOPLE
+        FROM
+        RESERVATION R
+        JOIN
+        MEMBER M ON R.MEMBER_NO = M.MEMBER_NO
+        JOIN
+        CATEGORY C ON R.CATEGORY_ID = C.CATEGORY_ID
+        WHERE
+        M.MEMBER_NO = #{memberNo}
+    </select>
+
+    <select id="getDataCount" parameterType="map" resultType="int">
+        SELECT NVL(count(*),0) FROM post
+        WHERE MEMBER_NO = #{memberNo}
+    </select>
+
+<!--    <insert id="insertPost" parameterType="Post">-->
+<!--        INSERT INTO post (POST_ID, MEMBER_NO, RESERVATION_ID)-->
+<!--        VALUES (post_seq.nextval, #{memberNo}, #{reservationId});-->
+<!--    </insert>-->
+
+
+</mapper>

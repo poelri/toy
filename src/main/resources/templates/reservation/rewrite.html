@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+
+<main layout:fragment="content" class="main">
+
+    <div class="untree_co-section">
+        <div class="container">
+            <form id="postForm" name="postForm" class="contact-form" method="post" action="/update">
+            <div class="row justify-content-between align-items-center">
+                <div class="col-lg-6">
+                    <figure class="img-play-video">
+                        <a id="play-video" class="video-play-button" href="https://www.youtube.com/watch?v=cLDPRA3W59Y&ab_channel=%EB%A5%98%EC%BA%A0%ED%94%84RYUCAMP" data-fancybox>
+                            <span></span>
+                        </a>
+                        <img src="images/hero-slider-1.jpg" alt="Image" class="img-fluid rounded-20">
+                    </figure>
+                </div>
+
+                <div class="col-lg-5">
+                    <h2 class="section-title text-left mb-4">Reservation Inquiry</h2>
+                    <p>PongDang PongDang</p>
+                    <ul class="list-unstyled two-col clearfix">
+                        <li>Check-in :
+                            <input class="form-control form-control-name" name="startDate" id="startDate"
+                                   type="text" required th:value="${reservation.startDate}" style="width:70%;">
+                        </li>
+                        <li>Check-out :
+                            <input class="form-control form-control-name" name="lastDate" id="lastDate"
+                                   type="text" required th:value="${reservation.lastDate}" style="width:70%;">
+                        </li>
+                        <li>Of people :
+                            <input class="form-control form-control-name" name="people" id="people"
+                                   type="text" required th:value="${reservation.people}" style="width:70%;">
+                        </li>
+                        <li>Reservation ID :
+                            <span th:text="${reservation.reservationId}"></span>
+                        </li>
+                        <li>Category Name :
+                            <span th:text="${reservation.category.categoryName}"></span>
+                       </li>
+                    </ul>
+
+                    <button class="btn btn-primary solid blank mt-3" type="submit">
+                        예약 수정하기
+                    </button>
+
+                </div>
+
+            </div>
+            </form>
+        </div>
+    </div>
+
+</main>
+
+<th:block layout:fragment="script">
+    <script th:src="@{plugins/ckeditor5/build/ckeditor.js}"></script>
+
+    <script th:inline="javascript">
+
+    </script>
+</th:block>
+</html>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.toy.dao.ReservationDao">
+
+    <resultMap id="Reservation" type="Reservation">
+        <id column="MEMBER_NO" property="memberNo" />
+        <result column="RESERVATION_ID" property="reservationId" />
+        <result column="RESERVATION_DATE" property="reservationDate" />
+        <result column="START_DATE" property="startDate" />
+        <result column="LAST_DATE" property="lastDate" />
+        <result column="CAMP_NAME" property="campName" />
+        <result column="CATEGORY_ID" property="categoryId" />
+        <result column="PRICE" property="price" />
+        <result column="PEOPLE" property="people" />
+        <!-- Category 속성 매핑 -->
+        <association property="category" javaType="Category">
+            <result column="CATEGORY_ID" property="categoryId"/>
+            <result column="CATEGORY_NAME" property="categoryName"/>
+        </association>
+    </resultMap>
+
+    <resultMap id="Member" type="Member">
+        <result column="member_no" property="memberNo" />
+        <result column="pw" property="pw" />
+        <result column="name" property="name" />
+        <result column="balance" property="balance" />
+    </resultMap>
+
+    <resultMap id="Category" type="Category">
+        <result column="CATEGORY_ID" property="categoryId" />
+        <result column="CATEGORY_NAME" property="categoryName" />
+    </resultMap>
+
+    <select id="getReservationList" parameterType="map" resultType="Reservation" resultMap="Reservation">
+        SELECT
+        R.RESERVATION_ID,
+        R.START_DATE,
+        R.LAST_DATE,
+        R.CATEGORY_ID,
+        C.CATEGORY_NAME,
+        R.PEOPLE
+        FROM
+        RESERVATION R
+        JOIN
+        MEMBER M ON R.MEMBER_NO = M.MEMBER_NO
+        JOIN
+        CATEGORY C ON R.CATEGORY_ID = C.CATEGORY_ID
+        WHERE
+        M.MEMBER_NO = #{memberNo}
+    </select>
+
+    <select id="getDataCount" parameterType="map" resultType="int">
+        SELECT NVL(count(*),0) FROM reservation
+        WHERE MEMBER_NO = #{memberNo}
+    </select>
+
+    <insert id="createReservation" parameterType="Reservation">
+        INSERT INTO RESERVATION (RESERVATION_ID, START_DATE, LAST_DATE, MEMBER_NO, CATEGORY_ID, PEOPLE)
+        VALUES (RESERVATION_seq.nextval, #{startDate}, #{lastDate}, #{memberNo},  #{categoryId},  #{people})
+    </insert>
+
+    <delete id="deleteReservation" parameterType="int">
+        delete reservation where reservation_id = #{reservationId}
+    </delete>
+
+
+    <select id="getReadReservation" parameterType="int" resultType="Reservation" resultMap="Reservation">
+        SELECT
+        r.Reservation_ID,
+        r.start_Date,
+        r.last_Date,
+        r.MEMBER_NO,
+        r.CATEGORY_ID,
+        r.people,
+        m.MEMBER_NO,
+        m.NAME,
+        c.CATEGORY_NAME
+        FROM
+        Reservation r
+        INNER JOIN MEMBER m ON r.MEMBER_NO = m.MEMBER_NO
+        INNER JOIN Category c ON r.CATEGORY_ID = c.CATEGORY_ID
+        WHERE
+        r.Reservation_ID = #{ReservationId}
+    </select>
+
+    <update id ="updateReservation" parameterType="Reservation">
+        update Reservation set START_DATE = #{startDate},
+        LAST_DATE = #{lastDate}, people = #{people}
+        where Reservation_id =#{reservationId}
+    </update>
+
+</mapper>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+
+<main layout:fragment="content" class="main">
+
+    <div class="hero hero-inner">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mx-auto text-center">
+                    <div class="intro-wrap">
+                        <h1 class="mb-0">Charge</h1>
+                        <p class="text-white">
+                            "Debugging is like solving a puzzle in the dark, with pieces that keep changing shape and the puzzle itself occasionally bursting into flames."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="untree_co-section">
+        <div class="container">
+            <div class="row"  style="text-align:center;justify-content: center;">
+                <form action="/charge" method="post" id="contact-form" class="contact-form">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group" style="display:flex;">
+                                <div style="margin-right: 50px;  width: 100px;">
+                                    <span style="padding-top:10px;">잔액</span>
+                                </div>
+                                <div>
+                                    <span style="padding-top:10px;" th:text="${balance} + ' 원'"></span>
+                                </div>
+                            </div>
+                            <div class="form-group" style="display:flex;">
+                                <div style="margin-right: 50px;">
+                                    <label for="charge" style="padding-top:10px; width: 100px;">충전 금액</label>
+                                </div>
+                                <div>
+                                    <input class="form-control" name="charge" id="charge" type="number" placeholder="숫자만 입력하세요" maxlength="250" required>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary" type="submit">
+                                충전하기
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+
+</main>
+
+</html>

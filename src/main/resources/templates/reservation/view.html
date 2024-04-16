@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+
+<main layout:fragment="content" class="main">
+
+    <div class="untree_co-section">
+        <div class="container">
+            <div class="row justify-content-between align-items-center">
+
+                <div class="col-lg-6">
+                    <figure class="img-play-video">
+                        <a id="play-video" class="video-play-button" href="https://www.youtube.com/watch?v=mwtbEGNABWU" data-fancybox>
+                            <span></span>
+                        </a>
+                        <img src="images/hero-slider-1.jpg" alt="Image" class="img-fluid rounded-20">
+                    </figure>
+                </div>
+
+                <div class="col-lg-5">
+                    <h2 class="section-title text-left mb-4">Reservation Inquiry</h2>
+                    <p>PongDang PongDang</p>
+                    <ul class="list-unstyled two-col clearfix">
+                        <li>Check-in : <span th:text="${reservation.startDate}"></span></li>
+                        <li>Check-out : <span th:text="${reservation.lastDate}"></span></li>
+                        <li>of People : <span th:text="${reservation.people}"></span>  </li>
+                        <li>Reservation ID : <span th:text="${reservation.reservationId}"></span> </li>
+                        <li>Category Name : <span th:text="${reservation.category.categoryName}"></span>  </li>
+                    </ul>
+
+
+
+                    <div class="list-posts-share" th:if="${session.member_no} == ${reservation.memberNo}">
+                        <a th:onclick="|location.href='rewrite?reservationId=@{${reservation.reservationId}}&@{${params}}'|" class="btn btn-primary">수정</a>
+                        <a onclick="deleteReservation(); return false;" class="btn btn-primary">삭제</a>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+        function deleteReservation() {
+         const result = confirm("해당 포스트 삭제하시겠습니까?");
+         const url = '/delete/' + [[${reservation.reservationId}]]; // request URL
+
+         if(result) {
+             $.ajax({
+                 url : url,
+                 type : "DELETE", // 전송방식
+                 contentType : "application/json",
+                 dataType : "json",
+                 cache : false,
+                 success : function(result, status) {
+                     console.log("result reservationId: " + result + ", statusCode: " + status);
+                     location.href = '/list';
+                 },
+                 error : function(jqXHR, status, error) {
+                     console.log("result: " + jqXHR.responseText + ", statusCode: " + status);
+
+
+                     if(jqXHR.status == '401') { // UNATHORIZED
+                         location.href = '/login';
+                     } else {
+                         alert(jqXHR.responseText);
+                     }
+                 }
+    });
+         }
+
+
+     }
+    </script>
+</th:block>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+
+<main layout:fragment="content" class="main">
+    <div class="container" >
+        <!-- 게시판 리스트 -->
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                    <table class="table">
+                    <thead>
+
+                    <tr>
+                        <th scope="col">카테고리</th>
+                        <th scope="col">VIEW</th>
+                        <th scope="col">체크인</th>
+                        <th scope="col">체크아웃</th>
+                        <th scope="col">인원수</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- 등록된 포스트가 있을 경우 -->
+                    <!-- #lists.size(리스트 객체 키 값)  -->
+                    <tr th:if="${#lists.size(lists)} > 0" th:each="reservation:${lists}">
+                        <td th:text="${reservation.category.categoryId}"></td>
+                        <td>
+                            <a th:href="|@{${articleUrl}}&reservationId=@{${reservation.reservationId}}|" th:text="${reservation.category.categoryName}"></a>
+                        </td>
+                        <td th:text="${reservation.startDate}"></td>
+                        <td th:text="${reservation.lastDate}"></td>
+                        <td th:text="${reservation.people}"></td>
+                    </tr>
+                    <!-- 등록된 포스트가 없을 경우 -->
+                    <tr th:if="${#lists.size(lists)} == 0">
+                        <td colspan="5">등록된 게시물이 없습니다.</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 페이징 버튼 -->
+        <div th:if="${#lists.size(lists)} > 0" class="row justify-content-center">
+            <div class="col-lg-10">
+                <nav aria-label="...">
+                    <ul class="pagination justify-content-center">
+                        <!-- 태그로 출력 시 형태 [(${변수})] 이용 -->
+                        <!-- 텍스트로 출력 시 [[${변수}]] 이용 -->
+                        [(${pageIndexList})]
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+
+    </div>
+</main>
+<!-- 각 페이지의 JS가 작성될 위치지정 -->
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+        function deleteReservation() {
+         const result = confirm("해당 포스트 삭제하시겠습니까?");
+         const url = '/delete/' + [[${reservation.reservationId}]]; // request URL
+
+         if(result) {
+             $.ajax({
+                 url : url,
+                 type : "DELETE", // 전송방식
+                 contentType : "application/json",
+                 dataType : "json",
+                 cache : false,
+                 success : function(result, status) {
+                     console.log("result reservationId: " + result + ", statusCode: " + status);
+                     location.href = '/list';
+                 },
+                 error : function(jqXHR, status, error) {
+                     console.log("result: " + jqXHR.responseText + ", statusCode: " + status);
+
+
+                     if(jqXHR.status == '401') { // UNATHORIZED
+                         location.href = '/login';
+                     } else {
+                         alert(jqXHR.responseText);
+                     }
+                 }
+    });
+         }
+
+
+     }
+    </script>
+</th:block>
+
+</html>

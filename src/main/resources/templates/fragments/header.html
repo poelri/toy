@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<header th:fragment="header">
+    <div class="site-mobile-menu site-navbar-target">
+        <div class="site-mobile-menu-header">
+            <div class="site-mobile-menu-close">
+                <span class="icofont-close js-menu-toggle"></span>
+            </div>
+        </div>
+        <div class="site-mobile-menu-body"></div>
+    </div>
+
+    <nav class="site-nav">
+        <div class="container">
+            <div class="site-navigation">
+                <a href="/" class="logo m-0">PongDang Camping <span class="text-primary">.</span></a>
+
+                <ul class="js-clone-nav d-none d-lg-inline-block text-left site-menu float-right">
+                    <li class="active"><a href="index.html">Home</a></li>
+
+                    <li class="has-children" th:if="${session.name != null}">
+                        <span style="color:white;">Reservation</span>
+                        <ul class="dropdown">
+                            <li><a href="/reservation">Reservation</a></li>
+                            <li><a href="/list">Reservation Inquiry</a></li>
+                        </ul>
+                    </li>
+                    <li th:if="${session.name != null}"><a href="/charge">Charge</a></li>
+
+                    <li class="has-children" >
+                        <span style="color:white;">Rivew</span>
+                        <ul class="dropdown">
+                            <li th:if="${session.name != null}"><a href="/write">Rivew</a></li>
+                            <li><a href="/list">Reservation Inquiry</a></li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a th:if="${session.name == null}"  href="/login">Login</a>
+                        <span th:unless="${session.name == null}">
+                                <a href="/" th:text="${session.name} + '님'" style="color:white;"></a>
+                                <a href="/logout"
+                                   style="padding-top: 8px;
+                                          color: white;
+                                          padding-left: 10px;">
+                                    Logout</a>
+                        </span>
+                    </li>
+                </ul>
+
+                <a href="#" class="burger ml-auto float-right site-menu-toggle js-menu-toggle d-inline-block d-lg-none light" data-toggle="collapse" data-target="#main-navbar">
+                    <span></span>
+                </a>
+
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="hero">
+
+    </div>
+</header>
+</html>

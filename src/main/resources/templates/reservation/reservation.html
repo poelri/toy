@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+
+<main layout:fragment="content" class="main">
+
+    <div class="row"
+         style="height: 20rem;
+                justify-content: center;
+                padding: 4rem;">
+        <div class="col-8">
+            <form class="form"  action="/createReservation" method="post">
+                <div class="row mb-2">
+                    <div class="col-sm-12 col-md-1 mb-3 mb-lg-0 col-lg-3" style="padding-top: 1.8rem;">
+                        <select name="categoryId" id="categoryId" class="form-control custom-select">
+                            <option value="001">ocean view</option>
+                            <option value="002">river view</option>
+                            <option value="003">mountain view</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-12 col-md-6 mb-3 mb-lg-0 col-lg-3">
+                        <label for="startDate">Check-in</label>
+                        <input type="text" class="form-control" id="startDate" name="startDate" placeholder="#YYYY-MM-DD">
+                    </div>
+                    <div class="col-sm-12 col-md-6 mb-3 mb-lg-0 col-lg-3">
+                        <label for="lastDate">Check-out</label>
+                        <input type="text" class="form-control" id="lastDate" name="lastDate" placeholder="#YYYY-MM-DD">
+                    </div>
+                    <div class="col-sm-12 col-md-6 mb-3 mb-lg-0 col-lg-3">
+                        <label for="people">people</label>
+                        <input type="text" class="form-control" id="people" name="people" placeholder="#of people">
+                    </div>
+
+                </div>
+                <div class="row align-items-center">
+                    <div class="col-sm-12 col-md-6 mb-3 mb-lg-0 col-lg-4">
+                        <button type="submit" class="btn btn-primary btn-block" value="Reservation">Reservation</button>
+                    </div>
+                    <div class="col-lg-8">
+                        <label class="control control--checkbox mt-3">
+                            <span class="caption">Save this search</span>
+                            <input type="checkbox" checked="checked" />
+                            <div class="control__indicator"></div>
+                        </label>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+
+</html>

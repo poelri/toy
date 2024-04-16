@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+    <title>MyBlog</title>
+
+    <!-- 공통으로 사용할 CSS plugins -->
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="css/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="fonts/icomoon/style.css">
+    <link rel="stylesheet" href="fonts/flaticon/font/flaticon.css">
+    <link rel="stylesheet" href="css/daterangepicker.css">
+    <link rel="stylesheet" href="css/aos.css">
+    <!-- 공통으로 사용할 커스터마이징 된 CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- 각 페이지의 CSS가 작성될 위치지정 -->
+    <th:block layout:fragment="css"></th:block>
+
+</head>
+<body>
+<div th:replace="fragments/header::header"></div>
+
+<div layout:fragment="content" class="content"></div>
+
+<div th:replace="fragments/footer::footer"></div>
+
+<!-- 공통으로 사용할 JS plugins -->
+<!-- initialize jQuery Library -->
+<script th:src="@{plugins/jquery/jquery.js}"></script>
+<!-- Bootstrap jQuery -->
+<script src="js/jquery-3.4.1.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/owl.carousel.min.js"></script>
+<script src="js/jquery.animateNumber.min.js"></script>
+<script src="js/jquery.waypoints.min.js"></script>
+<script src="js/jquery.fancybox.min.js"></script>
+<script src="js/aos.js"></script>
+<script src="js/moment.min.js"></script>
+<script src="js/daterangepicker.js"></script>
+
+<script src="js/typed.js"></script>
+<!-- 공통으로 사용할 커스터마이징 된 JS -->
+<script th:src="@{js/custom.js}">
+    $(function() {
+			var slides = $('.slides'),
+			images = slides.find('img');
+
+			images.each(function(i) {
+				$(this).attr('data-id', i + 1);
+			})
+
+			var typed = new Typed('.typed-words', {
+				strings: ["San Francisco."," Paris."," New Zealand.", " Maui.", " London."],
+				typeSpeed: 80,
+				backSpeed: 80,
+				backDelay: 4000,
+				startDelay: 1000,
+				loop: true,
+				showCursor: true,
+				preStringTyped: (arrayPos, self) => {
+					arrayPos++;
+					console.log(arrayPos);
+					$('.slides img').removeClass('active');
+					$('.slides img[data-id="'+arrayPos+'"]').addClass('active');
+				}
+
+			});
+		})
+
+</script>
+
+<!-- 각 페이지의 JS가 작성될 위치지정 -->
+<th:block layout:fragment="script"></th:block>
+</body>
+</html>
